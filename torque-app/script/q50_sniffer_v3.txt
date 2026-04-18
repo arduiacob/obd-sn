@@ -1,0 +1,31 @@
+scriptTitle="Q50 Sniffer";
+scriptDescription="Captura de bloque 2101";
+scriptPackage="org.jacobo.q50.sniffer";
+scriptVersion=3;
+scriptAuthor="Jacobo";
+
+onInit = function() {
+    quit = false;
+    debugLen = Sensor.createSensor("Q50_Len", "Len", "b");
+    status = Sensor.createSensor("Q50_Status", "Status", "v");
+    status.setValue(1);
+};
+
+main = function() {
+    while (!quit) {
+        response = OBD.query("2101");
+        if (response != null) {
+            len = response.length();
+            debugLen.setValue(len);
+            status.setValue(100);
+            Log.log("DATA:" + response);
+        } else {
+            status.setValue(0);
+        }
+        Time.sleep(2000);
+    }
+};
+
+stop = function() {
+    quit = true;
+};
