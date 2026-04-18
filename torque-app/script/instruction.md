@@ -10,46 +10,39 @@ Este módulo aborda el problema del lag en el refresco de datos de la transmisi�
 
 Este script es la Fase 1. Su objetivo es capturar la cadena Hexadecimal cruda (Raw HEX) y verificar que recibimos el bloque multilínea completo.
 
-```java
-scriptTitle="Q50 Diagnostic Sniffer";
-scriptDescription="Captura de bloque 2101 para análisis de offsets";
-scriptPackage="org.jacobo.q50.sniffer";
-scriptVersion=1;
-scriptAuthor="Jacobo";
+## 📂 Instalación
+Conecta el móvil al PC o usa un explorador de archivos con acceso a la memoria interna.
 
-onInit = function() {
-    quit = false;
-    debugSensor = Sensor.createSensor("Q50 Debug Length", "Len", "bytes");
-    statusSensor = Sensor.createSensor("Q50 Script Status", "Status", "val");
-    statusSensor.setValue(1); 
-};
+    - Localiza la carpeta de Torque (suele estar en .torque/scripts/).
 
-main = function() {
-    while (!quit) {
-        // Realiza la petición al bus. Torque gestiona el handshake ISO-TP automáticamente.
-        var response = OBD.query("2101");
-        
-        if (response != null) {
-            var len = response.length();
-            debugSensor.setValue(len);
-            
-            // Logueamos la respuesta para identificar los offsets de los bytes
-            Log.log("Q50_RAW: " + response);
-            
-            if (len > 100) {
-                statusSensor.setValue(100); // Bloque completo recibido
-            } else {
-                statusSensor.setValue(50);  // Respuesta incompleta
-            }
-        } else {
-            statusSensor.setValue(0);
-            Log.log("Q50_ERROR: No hay respuesta del OBD");
-        }
-        Time.sleep(2000);
-    }
-};
+        Nota: Si la carpeta .torque está oculta, activa "Mostrar archivos ocultos".
 
-stop = function() {
-    quit = true;
-};
-```
+    - Copia el archivo q50_diag_test.ts en esa carpeta.
+
+    - Reinicia Torque Pro.
+
+## 📊 Cómo realizar las pruebas
+Activar Script: Ve a Ajustes de Torque > Scripts y asegúrate de que el script aparezca y esté activo.
+
+    - Dashboard: Añade dos indicadores de tipo "Display Digital" en tu panel:
+
+    - Q50 Debug Length
+
+    - Q50 Script Status
+
+Verificar Log: - Ve a la pantalla principal de Torque (Realtime Information).
+
+    - Pulsa el icono de la rueda dentada -> "Log View".
+
+    - Busca las entradas que empiecen por Q50_RAW:.
+
+    - Copia esa cadena hex para el siguiente paso de análisis de offsets.
+
+## 📈 Próximos Pasos (Fase 2)
+Una vez confirmada la recepción del bloque (Length > 400 caracteres aprox.), mapearemos los bytes del Excel de Jacobo:
+
+    - AT Temp: Localizar byte T (Offset aproximado 40-42).
+
+    - Gear: Localizar byte CR (Offset aproximado 190-192).
+
+    - Conversión: Implementar las fórmulas T-55 y los LOOKUP directamente en Java dentro del script.
