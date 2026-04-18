@@ -39,8 +39,8 @@ Este script de Python permite monitorizar el tráfico (`STMA`) y marcar eventos 
 
     3. Automatización: - Leer PID 0105 (Temp Motor).
 
-        Detectar estado del Modo ECO.
+        - Detectar estado del Modo ECO.
 
-        Lógica: IF Temp < 60 AND Modo == ECO THEN Fan Speed 1.
+        - Lógica: IF Temp < 60 AND Modo == ECO THEN Fan Speed 1.
 
     4. Portabilidad: Implementar el script final en Termux para ejecución persistente en Android 16.

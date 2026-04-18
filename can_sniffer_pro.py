@@ -4,7 +4,7 @@ import datetime
 import threading
 
 # --- CONFIGURACIÓN ---
-PORT = 'COM3'  # Cambia por tu puerto (ej: '/dev/ttyUSB0' en Linux/Mac o 'COMX' en Windows)
+PORT = 'dev/ttyUSB0'  # Cambia por tu puerto (ej: '/dev/ttyUSB0' en Linux/Mac o 'COMX' en Windows)
 BAUD = 115200 # Velocidad estándar del OBDLink LX
 LOG_FILE = "infiniti_q50_sniff.log"
 
