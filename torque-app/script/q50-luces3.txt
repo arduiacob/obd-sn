@@ -1,0 +1,24 @@
+scriptTitle="Encender Luces3 Q50";
+scriptDescription="Script para encender las luces de un Nissan";
+scriptPackage="com.arduiacob.q50.lights.v3";
+scriptVersion=1;
+scriptAuthor="iacob";
+
+onInit = function() {
+    var LIGHTS_ON = false; // Variable global para el estado de las luces
+};
+
+main = function() {
+    while (!quit) {
+        if (!LIGHTS_ON) {
+            sendCanMessage("7E0", "02 38 01 00 FF FF FF FF FF FF FF FF FF FF FF FF FF"); // Envía el mensaje para apagar las luces 
+            LIGHTS_ON=true; // Establece la variable global LIGHTS_ON en verdadero (encendido)
+                      }
+    }
+};
+
+stop = function() {
+    sendCanMessage("7E0", "02 38 00 00 FF FF FF FF FF FF FF FF FF FF FF FF FF"); // Envía el mensaje para apagar las luces 
+    LIGHTS_ON=false; // Establece la variable global LIGHTS_ON en falso (apagado) al detener el script
+};
+
