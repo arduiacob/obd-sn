@@ -1,0 +1,36 @@
+scriptTitle="DTC_Clear_Loop";
+scriptDescription="Clear DTCs at a specific time interval";
+scriptPackage="org.unternet.app.torque.script.dtcclearloop";
+scriptVersion=1;
+scriptAuthor="Yetanfou";
+
+onInit = function() {
+   quit = false;
+};
+
+main = function() {
+   while (!quit) {
+      if (OBD.isConnectedToAdapter() && OBD.isConnectedToECU()) {
+
+         // The most common clear DTC command is mode 4 
+         OBD.sendCommandGetResponse("clear_dtc", "04\r");
+
+         // Torque itself uses the following sequence, use what works for you...
+         // OBD.sendCommandGetResponse("clear_dtc", "14\r");
+         // OBD.sendCommandGetResponse("clear_dtc", "14FF00\r");
+         // OBD.sendCommandGetResponse("clear_dtc", "140000\r");
+         // OBD.sendCommandGetResponse("clear_dtc", "0100\r");
+         // OBD.sendCommandGetResponse("clear_dtc", "04\r");
+         // OBD.sendCommandGetResponse("clear_dtc", "14FF00\r");
+         // OBD.sendCommandGetResponse("clear_dtc", "14\r");
+         // OBD.sendCommandGetResponse("clear_dtc", "140000\r");
+      }
+
+      // Sleep for as many seconds as you are willing to, the longer the better up to a certain level...
+      Time.sleep(5000);
+   }
+};
+
+stop = function() {
+    quit = true;
+};
