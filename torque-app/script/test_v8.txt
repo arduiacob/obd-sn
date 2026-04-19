@@ -1,0 +1,31 @@
+scriptTitle="Q50 Stress Test";
+scriptDescription="Probando limites de objetos";
+scriptPackage="com.jacobo.q50.stress";
+scriptVersion=8;
+scriptAuthor="Jacobo";
+
+onInit = function() {
+    contador = 0.0;
+    quit = false;
+};
+
+main = function() {
+    while (!quit) {
+        contador = contador + 1.0;
+
+        // PRUEBA 1: ¿Podemos usar la clase Time para algo más que sleep?
+        ahora = Time.currentTimeMillis(); 
+
+        // PRUEBA 2: ¿El fallo es el objeto Log? 
+        // He visto en JEXL que a veces los métodos estáticos se llaman con ':'
+        // Vamos a probar la sintaxis alternativa que sale en algunos foros de Torque
+        Log:logInfo("Contador funcionando: " + contador);
+
+        // Si sobrevive a lo anterior, el script seguirá corriendo.
+        Time.sleep(1000);
+    }
+};
+
+stop = function() {
+    quit = true;
+};
