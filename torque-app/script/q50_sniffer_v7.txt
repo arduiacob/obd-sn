@@ -1,0 +1,59 @@
+scriptTitle="Q50 Sniffer";
+scriptDescription="Prueba de compatibilidad JEXL3";
+scriptPackage="org.jacobo.q50.sniffer.v7";
+scriptVersion=7;
+scriptAuthor="Jacobo";
+
+
+/**
+ * This is called when the script is first loaded, only once.
+ * 
+ * This function is required and must complete within 1000ms.
+ */
+onInit = function() {
+   
+   // Our quit global flag.  Use the var keyword to make it local
+   quit = false;
+
+   // Create a test sensor
+   sensor = Sensor.createSensor("Test sensor","Test","S");
+
+};
+
+/**
+ * This is called when Torque is connected to an OBD2 device
+ * 
+ * This function is optional and does not need to be defined.
+ */
+onOBDConnected = function() {};
+
+/**
+ * This is called when Torque is disconnected from the OBD2 device
+ *
+ * This function is optional and does not need to be defined.
+ */
+onOBDDisconnected= function() {};
+
+/**
+ * This is a 'main' entry point for your script, (if you choose to
+ * define this function), it can run indefinitely while (!quit) { ... } style
+ * 
+ * This function is optional and does not need to be defined.
+ */
+main = function() {
+
+   // Show a non-blocking dialog
+   dialog = Dialog.popup("I am a dialog title","The main method has started","Ok",function(){ Log:log("The ok Button was pressed!"); },function() { Log:log("The dialog was cancelled!");} );
+
+   // Enter our main loop
+   while (!quit) {
+
+      // Put the current time milliseconds in the sensor we made
+      sensor.setValue(Time.currentTimeMillis());
+
+      // Sleep about a second so we don't chew up CPU
+      Time.sleep(1000);
+   }
+
+
+};
