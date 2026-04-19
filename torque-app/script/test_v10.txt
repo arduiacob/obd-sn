@@ -1,0 +1,32 @@
+scriptTitle="Q50 Sensor V10";
+scriptDescription="Probando Sensor sin try-catch";
+scriptPackage="com.jacobo.q50.v10";
+scriptVersion=10;
+scriptAuthor="Jacobo";
+
+onInit = function() {
+    quit = false;
+    contador = 0.0;
+    // Intentamos crear el sensor aquí mismo
+    miSensor = Sensor.createSensor("Prueba_Script", "P_SCR", "v");
+};
+
+main = function() {
+    while (!quit) {
+        contador = contador + 1.0;
+
+        // Si miSensor se creó bien en onInit, lo actualizamos
+        if (miSensor != null) {
+            miSensor.setValue(contador);
+            Log.logInfo("Sensor OK - Val: " + contador);
+        } else {
+            Log.logWarn("El objeto miSensor es null");
+        }
+
+        Time.sleep(2000);
+    }
+};
+
+stop = function() {
+    quit = true;
+};
