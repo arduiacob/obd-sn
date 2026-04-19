@@ -1,0 +1,31 @@
+scriptTitle="Q50 Test V6";
+scriptDescription="Prueba de compatibilidad JEXL3";
+scriptPackage="org.jacobo.q50.v6";
+scriptVersion=6;
+scriptAuthor="Jacobo";
+
+onInit = function() {
+   quit = false;
+   // Intentamos crear un solo sensor sin variables locales
+   sensorTest = Sensor.createSensor("Test_V6", "Test", "v");
+};
+
+main = function() {
+   while (!quit) {
+      // 1. Probamos si el error es por 'var'. Usamos asignación directa.
+      ahora = Time.currentTimeMillis() * 1.0;
+      
+      // 2. Probamos si el error es el método setValue. 
+      // Si falla aquí, el Introspector nos dirá lo mismo.
+      sensorTest.setValue(ahora);
+
+      // 3. Log muy simple
+      Log.logInfo("Tick");
+
+      Time.sleep(1000);
+   }
+};
+
+stop = function() {
+   quit = true;
+};
