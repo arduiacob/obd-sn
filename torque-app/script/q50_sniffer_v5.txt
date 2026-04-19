@@ -1,0 +1,47 @@
+scriptTitle="Q50 Sniffer";
+scriptDescription="Captura de bloque 2101";
+scriptPackage="org.jacobo.q50.sniffer";
+scriptVersion=5;
+scriptAuthor="Jacobo";
+
+onInit = function() {
+    quit = false;
+    debugLen = Sensor.createSensor("Q50_Len", "Len", "b");
+    status = Sensor.createSensor("Q50_Status", "Status", "v");
+    
+    // FIX 1: Forzamos double (1.0) para que coincida con setValue(double)
+    status.setValue(1.0); 
+};
+
+main = function() {
+    while (!quit) {
+        // FIX 2: Pasamos un string vacío "" en vez de null para la firma de la función
+        responseArray = OBD.sendCommandGetResponse("", "2101");
+        
+        if (responseArray != null) {
+            fullHex = "";
+            
+            // FIX 3: Iteración JEXL limpia
+            for (line : responseArray) {
+                fullHex = fullHex + line;
+            }
+            
+            // FIX 4: length() es int, lo multiplicamos por 1.0 para forzar el cast a double
+            lenDouble = fullHex.length() * 1.0; 
+            
+            debugLen.setValue(lenDouble);
+            status.setValue(100.0);
+            
+            Log.logInfo("Q50_DATA: " + fullHex);
+        } else {
+            status.setValue(0.0);
+            Log.logWarn("Q50_DATA: No hubo respuesta");
+        }
+        
+        Time.sleep(2000);
+    }
+};
+
+stop = function() {
+    quit = true;
+};
