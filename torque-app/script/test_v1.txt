@@ -1,0 +1,26 @@
+scriptTitle="Q50 Test Ciego";
+scriptDescription="Sin clases oficiales";
+scriptPackage="com.jacobo.q50.ciego";
+scriptVersion=1;
+scriptAuthor="Jacobo";
+
+onInit = function() {
+    // No usamos Sensor.createSensor porque sospecho que eso es lo que rompe
+    contador = 0.0;
+    quit = false;
+};
+
+main = function() {
+    while (!quit) {
+        contador = contador + 1.0;
+        // Si tienes activado el log de Torque, esto debería salir 
+        // solo si 'Log' está permitido. Si no, comenta la siguiente línea.
+        // Log.logInfo("Contador: " + contador);
+        
+        Time.sleep(1000);
+    }
+};
+
+stop = function() {
+    quit = true;
+};
